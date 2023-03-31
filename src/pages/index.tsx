@@ -1,7 +1,11 @@
 /**
  * This is a Next.js page.
  */
+import { CSSProperties } from 'react';
+import { Container } from '@mantine/core';
 import { trpc } from '../utils/trpc';
+import SortBar from './components/SortBar';
+import MessageBar from './components/MessageBar';
 
 export default function IndexPage() {
   // 💡 Tip: CMD+Click (or CTRL+Click) on `greeting` to go to the server definition
@@ -15,7 +19,8 @@ export default function IndexPage() {
     );
   }
   return (
-    <div style={styles}>
+    <Container style={styles}>
+      <SortBar />
       {/**
        * The type is defined and can be autocompleted
        * 💡 Tip: Hover over `data` to see the result type
@@ -23,14 +28,20 @@ export default function IndexPage() {
        * 💡 Tip: Secondary click on `text` and "Rename Symbol" to rename it both on the client & server
        */}
       <h1>{result.data.text}</h1>
-    </div>
+      <MessageBar />
+    </Container>
   );
 }
 
-const styles = {
-  width: '100vw',
-  height: '100vh',
+const styles: CSSProperties = {
+  width: '400px',
+  height: '500px',
   display: 'flex',
-  justifyContent: 'center',
-  alignItems: 'center',
+  flexDirection: 'column',
+  justifyContent: 'space-between',
+  marginTop: '10px',
+  padding: '0px',
+  borderRadius: '5px',
+  boxShadow: 'rgba(0, 0, 0, 0.35) 0px 5px 15px',
+  backgroundColor: '#d0d5d7',
 };
