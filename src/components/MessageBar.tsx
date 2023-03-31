@@ -1,5 +1,6 @@
 import { CSSProperties } from 'react';
 import { Textarea, Button } from '@mantine/core';
+import { IconPaperclip } from '@tabler/icons-react';
 
 export default function MessageBar() {
   return (
@@ -9,8 +10,13 @@ export default function MessageBar() {
         autosize
         minRows={1}
         maxRows={2}
+        style={{ width: 264 }}
       />
-      <Button variant='outline'>clip</Button>
+      <Button
+        variant='outline'
+        leftIcon={<IconPaperclip />}
+        styles={() => attachButtonStyles}
+      />
       <Button variant='filled'>SEND</Button>
     </div>
   );
@@ -25,4 +31,11 @@ const styles: CSSProperties = {
   padding: '5px',
   boxShadow: '0 4px 2px -2px gray',
   backgroundColor: '#fff',
+};
+
+const attachButtonStyles = {
+  root: { width: '36px' },
+  leftIcon: {
+    marginLeft: '15px',
+  },
 };
