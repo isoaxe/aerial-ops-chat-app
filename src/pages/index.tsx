@@ -11,13 +11,8 @@ export default function IndexPage() {
   // 💡 Tip: CMD+Click (or CTRL+Click) on `greeting` to go to the server definition
   const result = trpc.greeting.useQuery({ name: 'client' });
 
-  if (!result.data) {
-    return (
-      <div style={styles}>
-        <h1>Loading...</h1>
-      </div>
-    );
-  }
+  if (!result.data) return;
+
   return (
     <Container style={styles}>
       <SortBar />
