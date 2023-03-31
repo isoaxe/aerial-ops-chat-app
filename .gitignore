@@ -1,3 +1,6 @@
 # Build files:
 node_modules
 .next
+
+# Miscellaneous:
+.DS_Store
