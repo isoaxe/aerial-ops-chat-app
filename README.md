@@ -1,20 +1,13 @@
-# Next.js + tRPC
+# Global Chat App
 
-This example shows how you can make a typed query using a minimal implementation of tRPC following [`this as a reference`](https://trpc.io/docs/nextjs/introduction).
+A simple chat app that anyone can use. Built on a Next.js + tRPC template.
 
 ## Setup
 
-```bash
-npx create-next-app --example https://github.com/trpc/trpc --example-path examples/next-minimal-starter trpc-minimal-starter
-cd trpc-minimal-starter
-npm i
-npm run dev
-```
+### `pnpm install`
 
-## Development
+Install all dependencies by running this command from the root directory.
 
-### Start project
+### `pnpm run dev`
 
-```bash
-npm run dev        # starts next.js
-```
+Run the app in development mode on port `3000`.
