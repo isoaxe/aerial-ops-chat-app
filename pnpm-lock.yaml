@@ -16,6 +16,9 @@ dependencies:
   '@mantine/next':
     specifier: ^6.0.5
     version: 6.0.5(@emotion/react@11.10.6)(@emotion/server@11.10.0)(next@13.2.1)(react-dom@18.2.0)(react@18.2.0)
+  '@tabler/icons-react':
+    specifier: ^2.12.0
+    version: 2.12.0(react@18.2.0)
   '@tanstack/react-query':
     specifier: ^4.18.0
     version: 4.18.0(react-dom@18.2.0)(react@18.2.0)
@@ -631,6 +634,20 @@ packages:
     resolution: {integrity: sha512-4C7nX/dvpzB7za4Ql9K81xK3HPxCpHMgwTZVyf+9JQ6VUbn9jjZVN7/Nkdz/Ugzs2CSjqnL/UPXroiVBVHUWUw==}
     dependencies:
       tslib: 2.4.1
+    dev: false
+
+  /@tabler/icons-react@2.12.0(react@18.2.0):
+    resolution: {integrity: sha512-5O26fB0sigZ9UaDnMTPsht8clU6KYyClvTwhLPud0ZjeTnOMzGhe2Yx5qvfhDkCBNQqz+hIV8kBUe7fvNGv1Ng==}
+    peerDependencies:
+      react: ^16.5.1 || ^17.0.0 || ^18.0.0
+    dependencies:
+      '@tabler/icons': 2.12.0
+      prop-types: 15.8.1
+      react: 18.2.0
+    dev: false
+
+  /@tabler/icons@2.12.0:
+    resolution: {integrity: sha512-PiYD2zUOewNAtfJKU9tBZfyv3NeFlTlUe5LSGTTplvBcM0iuHrNVnd30+HIcUGJQhi3Uf0Ng9FRi/kPqm/q6ZA==}
     dev: false
 
   /@tanstack/query-core@4.18.0:
@@ -1566,6 +1583,14 @@ packages:
 
   /process-nextick-args@2.0.1:
     resolution: {integrity: sha512-3ouUOpQhtgrbOa17J7+uxOTpITYWaGP7/AhoR3+A+/1e9skrzelGi/dXzEYyvbxubEF6Wn2ypscTKiKJFFn1ag==}
+    dev: false
+
+  /prop-types@15.8.1:
+    resolution: {integrity: sha512-oj87CgZICdulUohogVAR7AjlC0327U4el4L6eAvOqCeudMDVU0NThNaV+b9Df4dXgSP1gXMTnPdhfe/2qDH5cg==}
+    dependencies:
+      loose-envify: 1.4.0
+      object-assign: 4.1.1
+      react-is: 16.13.1
     dev: false
 
   /punycode@2.1.1:
