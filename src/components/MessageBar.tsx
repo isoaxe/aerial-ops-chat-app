@@ -1,9 +1,16 @@
 import { useState, CSSProperties } from 'react';
 import { Textarea, Button } from '@mantine/core';
 import { IconPaperclip } from '@tabler/icons-react';
+import { trpc } from '~/utils/trpc';
 
 export default function MessageBar() {
   const [text, setText] = useState('');
+  const mutation = trpc.sendMsg.useMutation();
+
+  function sendMsg() {
+    mutation.mutate({ text });
+    setText('');
+  }
 
   return (
     <div style={styles}>
@@ -21,7 +28,9 @@ export default function MessageBar() {
         leftIcon={<IconPaperclip />}
         styles={() => attachButtonStyles}
       />
-      <Button variant='filled'>SEND</Button>
+      <Button variant='filled' onClick={sendMsg}>
+        SEND
+      </Button>
     </div>
   );
 }
