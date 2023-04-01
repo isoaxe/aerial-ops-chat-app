@@ -6,7 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "lint": "eslint --ext \".js,.ts,.tsx\" --report-unused-disable-directives src",
-    "start": "next start"
+    "start": "next start",
+    "env-var": "vercel env pull .env.local"
   },
   "dependencies": {
     "@emotion/react": "^11.10.6",
