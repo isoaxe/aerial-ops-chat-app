@@ -1,12 +1,16 @@
-import { CSSProperties } from 'react';
+import { useState, CSSProperties } from 'react';
 import { Textarea, Button } from '@mantine/core';
 import { IconPaperclip } from '@tabler/icons-react';
 
 export default function MessageBar() {
+  const [text, setText] = useState('');
+
   return (
     <div style={styles}>
       <Textarea
         placeholder='Enter Message...'
+        value={text}
+        onChange={(e) => setText(e.currentTarget.value)}
         autosize
         minRows={1}
         maxRows={2}
