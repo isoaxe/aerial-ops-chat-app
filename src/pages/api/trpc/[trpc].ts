@@ -5,6 +5,7 @@
 import * as trpcNext from '@trpc/server/adapters/next';
 import { z } from 'zod';
 import { publicProcedure, router } from '~/server/trpc';
+import { addMsg } from '../crud';
 
 const appRouter = router({
   greeting: publicProcedure
@@ -23,9 +24,15 @@ const appRouter = router({
       };
     }),
   // 💡 Tip: Try adding a new procedure here and see if you can use it in the client!
-  // getUser: publicProcedure.query(() => {
-  //   return { id: '1', name: 'bob' };
-  // }),
+  sendMsg: publicProcedure
+    .input(
+      z.object({
+        text: z.string(),
+      }),
+    )
+    .mutation(({ input }) => {
+      addMsg(input?.text);
+    }),
 });
 
 // export only the type definition of the API
