@@ -5,7 +5,7 @@
 import * as trpcNext from '@trpc/server/adapters/next';
 import { z } from 'zod';
 import { publicProcedure, router } from '~/server/trpc';
-import { addMsg } from '../crud';
+import { addMsg, listMsgs } from '../crud';
 
 const appRouter = router({
   greeting: publicProcedure
@@ -33,6 +33,9 @@ const appRouter = router({
     .mutation(({ input }) => {
       addMsg(input?.text);
     }),
+  getMsgs: publicProcedure.query(() => {
+    return listMsgs();
+  }),
 });
 
 // export only the type definition of the API
