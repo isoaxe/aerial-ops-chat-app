@@ -3,9 +3,8 @@
  */
 import { CSSProperties } from 'react';
 import { Container } from '@mantine/core';
-import { trpc } from '../utils/trpc';
-import SortBar from '../components/SortBar';
-import MessageBar from '../components/MessageBar';
+import SortBar from '~/components/SortBar';
+import MessageBar from '~/components/MessageBar';
 import Messages from '~/components/Messages';
 
 export default function IndexPage() {

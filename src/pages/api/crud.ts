@@ -1,5 +1,5 @@
 import { Message } from '~/utils/types';
-import clientPromise from '../../server/mongodb';
+import clientPromise from '~/server/mongodb';
 
 export async function addMsg(text: string) {
   try {
