@@ -1,5 +1,5 @@
 {
-  "name": "@examples/next-minimal",
+  "name": "aerial-ops-chat-app",
   "version": "10.18.0",
   "private": true,
   "scripts": {
