@@ -5,9 +5,9 @@ import { trpc } from '~/utils/trpc';
 
 export default function MessageBar() {
   const [text, setText] = useState('');
-  const mutation = trpc.sendMsg.useMutation();
+  const mutation = trpc.addMsg.useMutation();
 
-  function sendMsg() {
+  function addMsg() {
     mutation.mutate({ text });
     setText('');
   }
@@ -28,7 +28,7 @@ export default function MessageBar() {
         leftIcon={<IconPaperclip />}
         styles={() => attachButtonStyles}
       />
-      <Button variant='filled' onClick={sendMsg}>
+      <Button variant='filled' onClick={addMsg}>
         SEND
       </Button>
     </div>

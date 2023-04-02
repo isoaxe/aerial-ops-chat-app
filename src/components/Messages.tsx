@@ -2,7 +2,7 @@ import { ScrollArea } from '@mantine/core';
 import { trpc } from '~/utils/trpc';
 
 export default function Messages() {
-  const msgs = trpc.getMsgs.useQuery().data;
+  const msgs = trpc.listMsgs.useQuery().data;
 
   function formatTimestamp(unixTimestamp: number) {
     const dateString = new Date(unixTimestamp).toString();

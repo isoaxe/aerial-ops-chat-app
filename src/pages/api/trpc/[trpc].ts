@@ -8,7 +8,7 @@ import { publicProcedure, router } from '~/server/trpc';
 import { addMsg, deleteMsg, listMsgs } from '../crud';
 
 const appRouter = router({
-  sendMsg: publicProcedure
+  addMsg: publicProcedure
     .input(
       z.object({
         text: z.string(),
@@ -26,7 +26,7 @@ const appRouter = router({
     .mutation(({ input }) => {
       deleteMsg(input.id);
     }),
-  getMsgs: publicProcedure.query(() => {
+  listMsgs: publicProcedure.query(() => {
     return listMsgs();
   }),
 });
