@@ -5,7 +5,7 @@
 import * as trpcNext from '@trpc/server/adapters/next';
 import { z } from 'zod';
 import { publicProcedure, router } from '~/server/trpc';
-import { addMsg, listMsgs } from '../crud';
+import { addMsg, deleteMsg, listMsgs } from '../crud';
 
 const appRouter = router({
   sendMsg: publicProcedure
@@ -16,6 +16,15 @@ const appRouter = router({
     )
     .mutation(({ input }) => {
       addMsg(input?.text);
+    }),
+  deleteMsg: publicProcedure
+    .input(
+      z.object({
+        id: z.number(),
+      }),
+    )
+    .mutation(({ input }) => {
+      deleteMsg(input.id);
     }),
   getMsgs: publicProcedure.query(() => {
     return listMsgs();
