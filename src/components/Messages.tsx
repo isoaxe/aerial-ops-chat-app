@@ -1,8 +1,14 @@
 import { ScrollArea } from '@mantine/core';
+import { IconTrash } from '@tabler/icons-react';
 import { trpc } from '~/utils/trpc';
 
 export default function Messages() {
   const msgs = trpc.listMsgs.useQuery().data;
+  const mutation = trpc.deleteMsg.useMutation();
+
+  function deleteMsg(timeStamp: number) {
+    mutation.mutate({ timeStamp });
+  }
 
   function formatTimestamp(unixTimestamp: number) {
     const dateString = new Date(unixTimestamp).toString();
@@ -15,9 +21,13 @@ export default function Messages() {
     <ScrollArea h={400}>
       {msgs?.map((msg) => {
         return (
-          <div style={msgWrapStyle}>
-            <div style={msgStyle} key={msg._id}>
-              {msg.text}
+          <div style={msgWrapStyle} key={msg._id}>
+            <div style={msgIconStyle}>
+              <div style={msgStyle}>{msg.text}</div>
+              <IconTrash
+                style={trashIcon}
+                onClick={() => deleteMsg(msg.unixTime)}
+              />
             </div>
             <div style={timestampStyle}>{formatTimestamp(msg.unixTime)}</div>
           </div>
@@ -31,6 +41,11 @@ const msgWrapStyle = {
   margin: '5px 20px 10px 10px',
 };
 
+const msgIconStyle = {
+  display: 'flex',
+  alignItems: 'center',
+};
+
 const msgStyle = {
   width: 'fit-content',
   padding: '8px',
@@ -42,4 +57,8 @@ const msgStyle = {
 const timestampStyle = {
   fontSize: '10px',
   paddingLeft: '5px',
+};
+
+const trashIcon = {
+  color: '#9da2a4',
 };
