@@ -24,6 +24,6 @@ const styles: CSSProperties = {
   justifyContent: 'space-between',
   width: '100%',
   padding: '5px',
-  boxShadow: '0 4px 2px -2px gray',
+  borderBottom: '2px solid #0798d3',
   backgroundColor: '#fff',
 };
