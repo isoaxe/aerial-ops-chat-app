@@ -15,6 +15,18 @@ export async function addMsg(text: string) {
   }
 }
 
+export async function deleteMsg(timeStamp: number) {
+  try {
+    const mongoClient = await clientPromise;
+    const msgColl = mongoClient.db('chat-app').collection('messages');
+    const msgDoc = { unixTime: timeStamp };
+    await msgColl.deleteOne(msgDoc);
+    console.log('Message deleted!');
+  } catch (error) {
+    console.error(error);
+  }
+}
+
 export async function listMsgs() {
   try {
     const mongoClient = await clientPromise;
