@@ -20,11 +20,11 @@ const appRouter = router({
   deleteMsg: publicProcedure
     .input(
       z.object({
-        id: z.number(),
+        timeStamp: z.number(),
       }),
     )
     .mutation(({ input }) => {
-      deleteMsg(input.id);
+      deleteMsg(input.timeStamp);
     }),
   listMsgs: publicProcedure.query(() => {
     return listMsgs();
