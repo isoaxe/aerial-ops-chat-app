@@ -6,6 +6,7 @@ import { Container } from '@mantine/core';
 import { trpc } from '../utils/trpc';
 import SortBar from '../components/SortBar';
 import MessageBar from '../components/MessageBar';
+import Messages from '~/components/Messages';
 
 export default function IndexPage() {
   // 💡 Tip: CMD+Click (or CTRL+Click) on `greeting` to go to the server definition
@@ -23,6 +24,7 @@ export default function IndexPage() {
        * 💡 Tip: Secondary click on `text` and "Rename Symbol" to rename it both on the client & server
        */}
       <h1>{result.data.text}</h1>
+      <Messages />
       <MessageBar />
     </Container>
   );
