@@ -1,8 +1,11 @@
+import { useState } from 'react';
 import { ScrollArea } from '@mantine/core';
 import { IconTrash } from '@tabler/icons-react';
 import { trpc } from '~/utils/trpc';
 
 export default function Messages() {
+  const [msgTime, setMsgTime] = useState(0); // track which msg is being hovered
+
   const msgs = trpc.listMsgs.useQuery().data;
   const mutation = trpc.deleteMsg.useMutation();
 
@@ -22,11 +25,16 @@ export default function Messages() {
       {msgs?.map((msg) => {
         return (
           <div style={msgWrapStyle} key={msg._id}>
-            <div style={msgIconStyle}>
+            <div
+              style={msgIconStyle}
+              onMouseEnter={() => setMsgTime(msg.unixTime)}
+              onMouseLeave={() => setMsgTime(0)}
+            >
               <div style={msgStyle}>{msg.text}</div>
               <IconTrash
                 style={trashIcon}
                 onClick={() => deleteMsg(msg.unixTime)}
+                visibility={msgTime === msg.unixTime ? 'visible' : 'hidden'}
               />
             </div>
             <div style={timestampStyle}>{formatTimestamp(msg.unixTime)}</div>
