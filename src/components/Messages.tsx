@@ -35,6 +35,7 @@ export default function Messages() {
                 style={trashIcon}
                 onClick={() => deleteMsg(msg.unixTime)}
                 visibility={msgTime === msg.unixTime ? 'visible' : 'hidden'}
+                onMouseOver={(e) => (e.currentTarget.style.cursor = 'pointer')}
               />
             </div>
             <div style={timestampStyle}>{formatTimestamp(msg.unixTime)}</div>
