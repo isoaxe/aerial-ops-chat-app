@@ -5,7 +5,14 @@ import { trpc } from '~/utils/trpc';
 
 export default function MessageBar() {
   const [text, setText] = useState('');
+  const [filename, setFilename] = useState('');
+  const [fileType, setFileType] = useState('');
+
   const mutation = trpc.addMsg.useMutation();
+  const preSignedUrl = trpc.getPresignedUrl.useQuery(
+    { filename, fileType },
+    { enabled: !!filename && !!fileType },
+  ).data;
 
   function addMsg() {
     mutation.mutate({ text });
@@ -15,8 +22,11 @@ export default function MessageBar() {
   function attachPhoto() {
     const input = document.getElementById('upload') as HTMLInputElement;
     const file = input?.files?.[0];
-    const filename = file?.name;
-    const fileType = file?.type;
+    if (file) {
+      const { name, type } = file;
+      setFilename(name);
+      setFileType(type);
+    }
   }
 
   return (
