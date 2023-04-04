@@ -2,6 +2,7 @@ import { useState, CSSProperties } from 'react';
 import { Textarea, Button } from '@mantine/core';
 import { IconPaperclip } from '@tabler/icons-react';
 import { trpc } from '~/utils/trpc';
+import { S3_BUCKET_NAME } from '~/utils/constants';
 
 export default function MessageBar() {
   const [text, setText] = useState('');
@@ -16,7 +17,10 @@ export default function MessageBar() {
 
   function addMsg() {
     mutation.mutate({ text });
+    if (preSignedUrl) uploadPhotoToS3();
     setText('');
+    setFilename('');
+    setFileType('');
   }
 
   function attachPhoto() {
@@ -27,6 +31,18 @@ export default function MessageBar() {
       setFilename(name);
       setFileType(type);
     }
+  }
+
+  async function uploadPhotoToS3() {
+    if (!preSignedUrl) return;
+    const upload = await fetch(preSignedUrl, {
+      method: 'PUT',
+      body: filename,
+      headers: { 'Content-Type': fileType },
+    });
+    if (upload.ok) console.log('Photo uploaded successfully!');
+    else console.error('Photo upload failed.');
+    return `https://${S3_BUCKET_NAME}.s3.us-east-1s.amazonaws.com/${filename}`;
   }
 
   return (
