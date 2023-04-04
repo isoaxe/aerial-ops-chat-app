@@ -12,6 +12,13 @@ export default function MessageBar() {
     setText('');
   }
 
+  function attachPhoto() {
+    const input = document.getElementById('upload') as HTMLInputElement;
+    const file = input?.files?.[0];
+    const filename = file?.name;
+    const fileType = file?.type;
+  }
+
   return (
     <div style={styles}>
       <Textarea
@@ -23,7 +30,15 @@ export default function MessageBar() {
         maxRows={2}
         style={{ width: 264 }}
       />
+      <input
+        id='upload'
+        type='file'
+        accept='image/*'
+        onChange={attachPhoto}
+        hidden
+      />
       <Button
+        onClick={() => document.getElementById('upload')?.click()}
         variant='outline'
         leftIcon={<IconPaperclip />}
         styles={() => attachButtonStyles}
