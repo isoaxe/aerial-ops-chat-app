@@ -6,6 +6,7 @@ import * as trpcNext from '@trpc/server/adapters/next';
 import { z } from 'zod';
 import { publicProcedure, router } from '~/server/trpc';
 import { addMsg, deleteMsg, listMsgs } from '../crud';
+import preSignedUrl from '../getPresignedUrl';
 
 const appRouter = router({
   addMsg: publicProcedure
@@ -29,6 +30,16 @@ const appRouter = router({
   listMsgs: publicProcedure.query(() => {
     return listMsgs();
   }),
+  getPresignedUrl: publicProcedure
+    .input(
+      z.object({
+        filename: z.string(),
+        fileType: z.string(),
+      }),
+    )
+    .query(({ input }) => {
+      return preSignedUrl(input.filename, input.fileType);
+    }),
 });
 
 // export only the type definition of the API
