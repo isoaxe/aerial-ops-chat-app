@@ -7,8 +7,8 @@ export default function SortBar() {
       <Select
         placeholder='Sort by...'
         data={[
-          { value: 'time', label: 'Sort by Time' },
-          { value: 'date', label: 'Sort by Date' },
+          { value: 'date', label: 'Sort by Date & Time' },
+          { value: 'message', label: 'Sort by Message' },
         ]}
         style={{ maxWidth: 250 }}
       />
