@@ -1,7 +1,9 @@
-import { CSSProperties } from 'react';
+import { useState, CSSProperties } from 'react';
 import { Select, Button } from '@mantine/core';
 
 export default function SortBar() {
+  const [isSortedAsc, setIsSortedAsc] = useState(true);
+
   return (
     <div style={styles}>
       <Select
@@ -12,8 +14,18 @@ export default function SortBar() {
         ]}
         style={{ maxWidth: 250 }}
       />
-      <Button variant='outline'>Asc</Button>
-      <Button variant='outline'>Desc</Button>
+      <Button
+        variant={isSortedAsc ? 'filled' : 'outline'}
+        onClick={() => setIsSortedAsc(true)}
+      >
+        Asc
+      </Button>
+      <Button
+        variant={isSortedAsc ? 'outline' : 'filled'}
+        onClick={() => setIsSortedAsc(false)}
+      >
+        Desc
+      </Button>
     </div>
   );
 }
