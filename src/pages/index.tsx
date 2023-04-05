@@ -10,7 +10,10 @@ import { trpc } from '~/utils/trpc';
 import { Message } from '~/utils/types';
 
 export default function IndexPage() {
-  const { data } = trpc.listMsgs.useQuery();
+  const { data } = trpc.listMsgs.useQuery(
+    { placeholder: 3 },
+    { refetchInterval: 5000 },
+  );
   const msgs = data as unknown as Message[];
 
   return (

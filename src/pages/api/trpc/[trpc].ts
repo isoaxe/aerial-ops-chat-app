@@ -27,9 +27,15 @@ const appRouter = router({
     .mutation(({ input }) => {
       deleteMsg(input.timeStamp);
     }),
-  listMsgs: publicProcedure.query(() => {
-    return listMsgs();
-  }),
+  listMsgs: publicProcedure
+    .input(
+      z.object({
+        placeholder: z.number(),
+      }),
+    )
+    .query(() => {
+      return listMsgs();
+    }),
   getPresignedUrl: publicProcedure
     .input(
       z.object({
