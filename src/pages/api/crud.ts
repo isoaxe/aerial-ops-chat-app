@@ -1,4 +1,4 @@
-import { ObjectId } from 'mongodb';
+import { ObjectId, Sort, SortDirection } from 'mongodb';
 import { Message } from '~/utils/types';
 import clientPromise from '~/server/mongodb';
 
@@ -28,11 +28,17 @@ export async function deleteMsg(id: string) {
   }
 }
 
-export async function listMsgs() {
+export async function listMsgs(
+  sortType: string | null | undefined,
+  isSortedAsc: boolean,
+) {
+  const order: SortDirection = isSortedAsc ? 1 : -1;
+  const sort: Sort = sortType === 'date' ? { date: order } : { text: order };
+  const options = { sort };
   try {
     const mongoClient = await clientPromise;
     const msgColl = mongoClient.db('chat-app').collection('messages');
-    const allMsgs = (await msgColl.find({}).toArray()) as Message[];
+    const allMsgs = (await msgColl.find({}, options).toArray()) as Message[];
     console.log('All messages have been fetched.');
     return allMsgs;
   } catch (error) {
