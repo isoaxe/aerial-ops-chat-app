@@ -5,6 +5,7 @@ export type Message = {
   text: string;
   date: string;
   unixTime: number;
+  imageUrl?: string;
 };
 
 export type MessagesProps = {
