@@ -19,7 +19,7 @@ export default function MessageBar(props: MessageBarProps) {
   ).data;
 
   function addMsg() {
-    mutation.mutate({ text });
+    mutation.mutate({ type: 'WITHOUT_IMAGE', text });
     if (preSignedUrl) uploadPhotoToS3();
     setText('');
     setFilename('');

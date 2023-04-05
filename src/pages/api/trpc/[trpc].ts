@@ -11,9 +11,17 @@ import preSignedUrl from '../getPresignedUrl';
 const appRouter = router({
   addMsg: publicProcedure
     .input(
-      z.object({
-        text: z.string(),
-      }),
+      z.discriminatedUnion('type', [
+        z.object({
+          type: z.literal('WITHOUT_IMAGE'),
+          text: z.string(),
+        }),
+        z.object({
+          type: z.literal('WITH_IMAGE'),
+          text: z.string(),
+          imageUrl: z.string(),
+        }),
+      ]),
     )
     .mutation(({ input }) => {
       addMsg(input?.text);
