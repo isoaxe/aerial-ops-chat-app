@@ -1,11 +1,12 @@
 import { useState, CSSProperties } from 'react';
+import { ObjectId } from 'mongodb';
 import { ScrollArea } from '@mantine/core';
 import { IconTrash } from '@tabler/icons-react';
 import { trpc } from '~/utils/trpc';
 import { MessagesProps } from '~/utils/types';
 
 export default function Messages(props: MessagesProps) {
-  const [msgTime, setMsgTime] = useState(0); // track which msg is being hovered
+  const [msgId, setMsgId] = useState<ObjectId | null>(null); // track which msg is being hovered
 
   const { msgs, refetch } = props;
 
@@ -32,14 +33,14 @@ export default function Messages(props: MessagesProps) {
             ) : null}
             <div
               style={msgIconStyle}
-              onMouseEnter={() => setMsgTime(msg.unixTime)}
-              onMouseLeave={() => setMsgTime(0)}
+              onMouseEnter={() => setMsgId(msg._id)}
+              onMouseLeave={() => setMsgId(null)}
             >
               <div style={msgStyle}>{msg.text}</div>
               <IconTrash
                 style={trashIcon}
                 onClick={() => deleteMsg(msg.unixTime)}
-                visibility={msgTime === msg.unixTime ? 'visible' : 'hidden'}
+                visibility={msgId === msg._id ? 'visible' : 'hidden'}
                 onMouseOver={(e) => (e.currentTarget.style.cursor = 'pointer')}
               />
             </div>
