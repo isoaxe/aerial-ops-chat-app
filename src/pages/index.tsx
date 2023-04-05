@@ -6,12 +6,17 @@ import { Container } from '@mantine/core';
 import SortBar from '~/components/SortBar';
 import MessageBar from '~/components/MessageBar';
 import Messages from '~/components/Messages';
+import { trpc } from '~/utils/trpc';
+import { Message } from '~/utils/types';
 
 export default function IndexPage() {
+  const { data } = trpc.listMsgs.useQuery();
+  const msgs = data as unknown as Message[];
+
   return (
     <Container style={styles}>
       <SortBar />
-      <Messages />
+      <Messages msgs={msgs} />
       <MessageBar />
     </Container>
   );

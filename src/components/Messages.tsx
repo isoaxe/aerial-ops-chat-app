@@ -2,12 +2,13 @@ import { useState } from 'react';
 import { ScrollArea } from '@mantine/core';
 import { IconTrash } from '@tabler/icons-react';
 import { trpc } from '~/utils/trpc';
+import { MessagesProps } from '~/utils/types';
 
-export default function Messages() {
+export default function Messages(props: MessagesProps) {
   const [msgTime, setMsgTime] = useState(0); // track which msg is being hovered
-
-  const msgs = trpc.listMsgs.useQuery().data;
   const mutation = trpc.deleteMsg.useMutation();
+
+  const { msgs } = props;
 
   function deleteMsg(timeStamp: number) {
     mutation.mutate({ timeStamp });
@@ -24,7 +25,7 @@ export default function Messages() {
     <ScrollArea h={400}>
       {msgs?.map((msg) => {
         return (
-          <div style={msgWrapStyle} key={msg._id}>
+          <div style={msgWrapStyle} key={msg._id.toString()}>
             <div
               style={msgIconStyle}
               onMouseEnter={() => setMsgTime(msg.unixTime)}

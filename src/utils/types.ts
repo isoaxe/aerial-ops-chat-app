@@ -6,3 +6,7 @@ export type Message = {
   date: string;
   unixTime: number;
 };
+
+export type MessagesProps = {
+  msgs: Message[];
+};
