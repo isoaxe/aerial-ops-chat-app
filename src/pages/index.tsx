@@ -15,7 +15,7 @@ export default function IndexPage() {
 
   const { data, refetch } = trpc.listMsgs.useQuery(
     { sortType, isSortedAsc },
-    { refetchInterval: 5000 },
+    { refetchInterval: 2500 },
   );
   const msgs = data as unknown as Message[];
 
