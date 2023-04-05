@@ -1,19 +1,33 @@
-import { CSSProperties } from 'react';
+import { useState, CSSProperties } from 'react';
 import { Select, Button } from '@mantine/core';
+import { SortBarProps } from '~/utils/types';
 
-export default function SortBar() {
+export default function SortBar(props: SortBarProps) {
+  const { sortType, setSortType, isSortedAsc, setIsSortedAsc } = props;
+
   return (
     <div style={styles}>
       <Select
-        placeholder='Sort by...'
+        value={sortType}
+        onChange={setSortType}
         data={[
-          { value: 'time', label: 'Sort by Time' },
-          { value: 'date', label: 'Sort by Date' },
+          { value: 'date', label: 'Sort by Date & Time' },
+          { value: 'message', label: 'Sort by Message' },
         ]}
         style={{ maxWidth: 250 }}
       />
-      <Button variant='outline'>Asc</Button>
-      <Button variant='outline'>Desc</Button>
+      <Button
+        variant={isSortedAsc ? 'filled' : 'outline'}
+        onClick={() => setIsSortedAsc(true)}
+      >
+        Asc
+      </Button>
+      <Button
+        variant={isSortedAsc ? 'outline' : 'filled'}
+        onClick={() => setIsSortedAsc(false)}
+      >
+        Desc
+      </Button>
     </div>
   );
 }

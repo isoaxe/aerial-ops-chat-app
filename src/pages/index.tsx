@@ -1,7 +1,7 @@
 /**
  * This is a Next.js page.
  */
-import { CSSProperties } from 'react';
+import { useState, CSSProperties } from 'react';
 import { Container } from '@mantine/core';
 import SortBar from '~/components/SortBar';
 import MessageBar from '~/components/MessageBar';
@@ -10,15 +10,23 @@ import { trpc } from '~/utils/trpc';
 import { Message } from '~/utils/types';
 
 export default function IndexPage() {
+  const [sortType, setSortType] = useState<string | null>('date');
+  const [isSortedAsc, setIsSortedAsc] = useState(true);
+
   const { data, refetch } = trpc.listMsgs.useQuery(
-    { placeholder: 3 },
-    { refetchInterval: 5000 },
+    { sortType, isSortedAsc },
+    { refetchInterval: 2500 },
   );
   const msgs = data as unknown as Message[];
 
   return (
     <Container style={styles}>
-      <SortBar />
+      <SortBar
+        sortType={sortType}
+        setSortType={setSortType}
+        isSortedAsc={isSortedAsc}
+        setIsSortedAsc={setIsSortedAsc}
+      />
       <Messages msgs={msgs} refetch={refetch} />
       <MessageBar refetch={refetch} />
     </Container>
