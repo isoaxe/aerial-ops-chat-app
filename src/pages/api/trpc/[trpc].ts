@@ -24,7 +24,8 @@ const appRouter = router({
       ]),
     )
     .mutation(({ input }) => {
-      addMsg(input?.text);
+      if (input.type === 'WITHOUT_IMAGE') addMsg(input.text);
+      else addMsg(input.text, input.imageUrl);
     }),
   deleteMsg: publicProcedure
     .input(
