@@ -1,3 +1,4 @@
+import { ObjectId } from 'mongodb';
 import { Message } from '~/utils/types';
 import clientPromise from '~/server/mongodb';
 
@@ -15,11 +16,11 @@ export async function addMsg(text: string, imageUrl?: string) {
   }
 }
 
-export async function deleteMsg(timeStamp: number) {
+export async function deleteMsg(id: string) {
   try {
     const mongoClient = await clientPromise;
     const msgColl = mongoClient.db('chat-app').collection('messages');
-    const msgDoc = { unixTime: timeStamp };
+    const msgDoc = { _id: new ObjectId(id) };
     await msgColl.deleteOne(msgDoc);
     console.log('Message deleted!');
   } catch (error) {

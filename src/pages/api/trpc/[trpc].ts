@@ -30,11 +30,11 @@ const appRouter = router({
   deleteMsg: publicProcedure
     .input(
       z.object({
-        timeStamp: z.number(),
+        id: z.string(),
       }),
     )
     .mutation(({ input }) => {
-      deleteMsg(input.timeStamp);
+      deleteMsg(input.id);
     }),
   listMsgs: publicProcedure
     .input(

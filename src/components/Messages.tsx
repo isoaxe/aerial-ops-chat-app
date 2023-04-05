@@ -12,8 +12,9 @@ export default function Messages(props: MessagesProps) {
 
   const mutation = trpc.deleteMsg.useMutation({ onSettled: refetch });
 
-  function deleteMsg(timeStamp: number) {
-    mutation.mutate({ timeStamp });
+  function deleteMsg(_id: ObjectId) {
+    const idAsString = _id.toString();
+    mutation.mutate({ id: idAsString });
   }
 
   function formatTimestamp(unixTimestamp: number) {
@@ -39,7 +40,7 @@ export default function Messages(props: MessagesProps) {
               <div style={msgStyle}>{msg.text}</div>
               <IconTrash
                 style={trashIcon}
-                onClick={() => deleteMsg(msg.unixTime)}
+                onClick={() => deleteMsg(msg._id)}
                 visibility={msgId === msg._id ? 'visible' : 'hidden'}
                 onMouseOver={(e) => (e.currentTarget.style.cursor = 'pointer')}
               />
