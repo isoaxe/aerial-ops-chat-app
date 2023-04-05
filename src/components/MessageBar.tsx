@@ -9,6 +9,7 @@ export default function MessageBar(props: MessageBarProps) {
   const [text, setText] = useState('');
   const [filename, setFilename] = useState('');
   const [fileType, setFileType] = useState('');
+  const [file, setFile] = useState<File | null>(null);
 
   const { refetch } = props;
 
@@ -18,12 +19,16 @@ export default function MessageBar(props: MessageBarProps) {
     { enabled: !!filename && !!fileType },
   ).data;
 
-  function addMsg() {
-    mutation.mutate({ text });
-    if (preSignedUrl) uploadPhotoToS3();
+  async function addMsg() {
+    if (file) {
+      const imageUrl = await uploadPhotoToS3();
+      if (!imageUrl) return;
+      mutation.mutate({ type: 'WITH_IMAGE', text, imageUrl });
+    } else mutation.mutate({ type: 'WITHOUT_IMAGE', text });
     setText('');
     setFilename('');
     setFileType('');
+    setFile(null);
   }
 
   function attachPhoto() {
@@ -33,6 +38,7 @@ export default function MessageBar(props: MessageBarProps) {
       const { name, type } = file;
       setFilename(name);
       setFileType(type);
+      setFile(file);
     }
   }
 
@@ -40,12 +46,12 @@ export default function MessageBar(props: MessageBarProps) {
     if (!preSignedUrl) return;
     const upload = await fetch(preSignedUrl, {
       method: 'PUT',
-      body: filename,
+      body: file,
       headers: { 'Content-Type': fileType },
     });
     if (upload.ok) console.log('Photo uploaded successfully!');
     else console.error('Photo upload failed.');
-    return `https://${S3_BUCKET_NAME}.s3.us-east-1s.amazonaws.com/${filename}`;
+    return `https://${S3_BUCKET_NAME}.s3.amazonaws.com/${filename}`;
   }
 
   return (
