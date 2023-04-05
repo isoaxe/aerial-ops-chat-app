@@ -1,9 +1,9 @@
 import { useState, CSSProperties } from 'react';
 import { Select, Button } from '@mantine/core';
+import { SortBarProps } from '~/utils/types';
 
-export default function SortBar() {
-  const [sortType, setSortType] = useState<string | null>('date');
-  const [isSortedAsc, setIsSortedAsc] = useState(true);
+export default function SortBar(props: SortBarProps) {
+  const { sortType, setSortType, isSortedAsc, setIsSortedAsc } = props;
 
   return (
     <div style={styles}>
