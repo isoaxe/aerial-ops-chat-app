@@ -10,7 +10,7 @@ import { trpc } from '~/utils/trpc';
 import { Message } from '~/utils/types';
 
 export default function IndexPage() {
-  const { data } = trpc.listMsgs.useQuery(
+  const { data, refetch } = trpc.listMsgs.useQuery(
     { placeholder: 3 },
     { refetchInterval: 5000 },
   );
@@ -20,7 +20,7 @@ export default function IndexPage() {
     <Container style={styles}>
       <SortBar />
       <Messages msgs={msgs} />
-      <MessageBar />
+      <MessageBar refetch={refetch} />
     </Container>
   );
 }

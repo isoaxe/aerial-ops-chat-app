@@ -10,3 +10,7 @@ export type Message = {
 export type MessagesProps = {
   msgs: Message[];
 };
+
+export type MessageBarProps = {
+  refetch: () => void;
+};

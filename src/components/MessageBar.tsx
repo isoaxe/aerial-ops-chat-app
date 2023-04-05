@@ -3,13 +3,16 @@ import { Textarea, Button } from '@mantine/core';
 import { IconPaperclip } from '@tabler/icons-react';
 import { trpc } from '~/utils/trpc';
 import { S3_BUCKET_NAME } from '~/utils/constants';
+import { MessageBarProps } from '~/utils/types';
 
-export default function MessageBar() {
+export default function MessageBar(props: MessageBarProps) {
   const [text, setText] = useState('');
   const [filename, setFilename] = useState('');
   const [fileType, setFileType] = useState('');
 
-  const mutation = trpc.addMsg.useMutation();
+  const { refetch } = props;
+
+  const mutation = trpc.addMsg.useMutation({ onSettled: refetch });
   const preSignedUrl = trpc.getPresignedUrl.useQuery(
     { filename, fileType },
     { enabled: !!filename && !!fileType },
