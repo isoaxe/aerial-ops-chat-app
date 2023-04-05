@@ -19,7 +19,7 @@ export default function IndexPage() {
   return (
     <Container style={styles}>
       <SortBar />
-      <Messages msgs={msgs} />
+      <Messages msgs={msgs} refetch={refetch} />
       <MessageBar refetch={refetch} />
     </Container>
   );

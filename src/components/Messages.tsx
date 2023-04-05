@@ -6,9 +6,10 @@ import { MessagesProps } from '~/utils/types';
 
 export default function Messages(props: MessagesProps) {
   const [msgTime, setMsgTime] = useState(0); // track which msg is being hovered
-  const mutation = trpc.deleteMsg.useMutation();
 
-  const { msgs } = props;
+  const { msgs, refetch } = props;
+
+  const mutation = trpc.deleteMsg.useMutation({ onSettled: refetch });
 
   function deleteMsg(timeStamp: number) {
     mutation.mutate({ timeStamp });
