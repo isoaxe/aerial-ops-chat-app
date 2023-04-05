@@ -19,9 +19,12 @@ export default function MessageBar(props: MessageBarProps) {
     { enabled: !!filename && !!fileType },
   ).data;
 
-  function addMsg() {
-    mutation.mutate({ type: 'WITHOUT_IMAGE', text });
-    if (preSignedUrl) uploadPhotoToS3();
+  async function addMsg() {
+    if (file) {
+      const imageUrl = await uploadPhotoToS3();
+      if (!imageUrl) return;
+      mutation.mutate({ type: 'WITH_IMAGE', text, imageUrl });
+    } else mutation.mutate({ type: 'WITHOUT_IMAGE', text });
     setText('');
     setFilename('');
     setFileType('');
