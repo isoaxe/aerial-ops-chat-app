@@ -2,12 +2,14 @@ import { useState, CSSProperties } from 'react';
 import { Select, Button } from '@mantine/core';
 
 export default function SortBar() {
+  const [sortType, setSortType] = useState<string | null>('date');
   const [isSortedAsc, setIsSortedAsc] = useState(true);
 
   return (
     <div style={styles}>
       <Select
-        placeholder='Sort by...'
+        value={sortType}
+        onChange={setSortType}
         data={[
           { value: 'date', label: 'Sort by Date & Time' },
           { value: 'message', label: 'Sort by Message' },
