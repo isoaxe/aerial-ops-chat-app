@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, CSSProperties } from 'react';
 import { ScrollArea } from '@mantine/core';
 import { IconTrash } from '@tabler/icons-react';
 import { trpc } from '~/utils/trpc';
@@ -51,21 +51,21 @@ export default function Messages(props: MessagesProps) {
   );
 }
 
-const msgWrapStyle = {
+const msgWrapStyle: CSSProperties = {
   margin: '5px 20px 10px 10px',
 };
 
-const imageStyle = {
+const imageStyle: CSSProperties = {
   maxWidth: '200px',
   maxHeight: '300px',
 };
 
-const msgIconStyle = {
+const msgIconStyle: CSSProperties = {
   display: 'flex',
   alignItems: 'center',
 };
 
-const msgStyle = {
+const msgStyle: CSSProperties = {
   width: 'fit-content',
   padding: '8px',
   border: '1px solid #9bc5d6',
@@ -73,11 +73,11 @@ const msgStyle = {
   backgroundColor: '#fff',
 };
 
-const timestampStyle = {
+const timestampStyle: CSSProperties = {
   fontSize: '10px',
   paddingLeft: '5px',
 };
 
-const trashIcon = {
+const trashIcon: CSSProperties = {
   color: '#9da2a4',
 };
