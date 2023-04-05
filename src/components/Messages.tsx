@@ -27,6 +27,9 @@ export default function Messages(props: MessagesProps) {
       {msgs?.map((msg) => {
         return (
           <div style={msgWrapStyle} key={msg._id.toString()}>
+            {msg.imageUrl ? (
+              <img style={imageStyle} src={msg.imageUrl} />
+            ) : null}
             <div
               style={msgIconStyle}
               onMouseEnter={() => setMsgTime(msg.unixTime)}
@@ -50,6 +53,11 @@ export default function Messages(props: MessagesProps) {
 
 const msgWrapStyle = {
   margin: '5px 20px 10px 10px',
+};
+
+const imageStyle = {
+  maxWidth: '200px',
+  maxHeight: '300px',
 };
 
 const msgIconStyle = {
