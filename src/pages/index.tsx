@@ -13,11 +13,14 @@ export default function IndexPage() {
   const [sortType, setSortType] = useState<string | null>('date');
   const [isSortedAsc, setIsSortedAsc] = useState(true);
 
-  const { data, refetch } = trpc.listMsgs.useQuery(
+  const { data, refetch } = trpc.listMsgs.useInfiniteQuery(
     { sortType, isSortedAsc },
-    { refetchInterval: 2500 },
+    { getNextPageParam: (lastPage) => lastPage.lastCursor },
   );
-  const msgs = data as unknown as Message[];
+  let allMsgs: Message[] = [];
+  data?.pages.forEach((page) => {
+    page.msgs.forEach((msg) => allMsgs.push(msg as unknown as Message));
+  });
 
   return (
     <Container style={styles}>
@@ -27,7 +30,7 @@ export default function IndexPage() {
         isSortedAsc={isSortedAsc}
         setIsSortedAsc={setIsSortedAsc}
       />
-      <Messages msgs={msgs} refetch={refetch} />
+      <Messages msgs={allMsgs} refetch={refetch} />
       <MessageBar refetch={refetch} />
     </Container>
   );

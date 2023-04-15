@@ -41,10 +41,11 @@ const appRouter = router({
       z.object({
         sortType: z.string().nullish(),
         isSortedAsc: z.boolean(),
+        cursor: z.string().nullish(),
       }),
     )
     .query(({ input }) => {
-      return listMsgs(input.sortType, input.isSortedAsc);
+      return listMsgs(input.sortType, input.isSortedAsc, input.cursor);
     }),
   getPresignedUrl: publicProcedure
     .input(

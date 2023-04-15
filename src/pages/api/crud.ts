@@ -1,6 +1,7 @@
 import { ObjectId, Sort, SortDirection } from 'mongodb';
-import { Message } from '~/utils/types';
 import clientPromise from '~/server/mongodb';
+import { Message } from '~/utils/types';
+import { NUM_MSGS } from '~/utils/constants';
 
 export async function addMsg(text: string, imageUrl?: string) {
   try {
@@ -31,17 +32,32 @@ export async function deleteMsg(id: string) {
 export async function listMsgs(
   sortType: string | null | undefined,
   isSortedAsc: boolean,
+  cursor: string | null | undefined,
 ) {
   const order: SortDirection = isSortedAsc ? 1 : -1;
   const sort: Sort = sortType === 'date' ? { date: order } : { text: order };
-  const options = { sort };
-  try {
-    const mongoClient = await clientPromise;
-    const msgColl = mongoClient.db('chat-app').collection('messages');
-    const allMsgs = (await msgColl.find({}, options).toArray()) as Message[];
-    console.log('All messages have been fetched.');
-    return allMsgs;
-  } catch (error) {
-    console.error(error);
+
+  let nextPage = {};
+  if (cursor) {
+    const lastCursor = sortType === 'date' ? new ObjectId(cursor) : cursor;
+    const sortOperator = isSortedAsc ? '$gt' : '$lt';
+    const params = { [sortOperator]: lastCursor };
+    nextPage = sortType === 'date' ? { _id: params } : { text: params };
   }
+
+  let msgs: Message[];
+  const mongoClient = await clientPromise;
+  const msgColl = mongoClient.db('chat-app').collection('messages');
+  msgs = (await msgColl
+    .find(nextPage, { sort })
+    .limit(NUM_MSGS)
+    .toArray()) as Message[];
+
+  console.log(`A batch of messages have been fetched.`);
+
+  const lastItem = msgs[msgs.length - 1];
+  let lastCursor: string | undefined;
+  if (sortType === 'date') lastCursor = lastItem?._id.toString();
+  else lastCursor = lastItem?._id.toString();
+  return { msgs, lastCursor };
 }
