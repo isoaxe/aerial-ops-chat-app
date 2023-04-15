@@ -1,5 +1,6 @@
-import { useState, CSSProperties } from 'react';
+import { useState, useEffect, CSSProperties } from 'react';
 import { ObjectId } from 'mongodb';
+import { useInView } from 'react-intersection-observer';
 import { ScrollArea } from '@mantine/core';
 import { IconTrash } from '@tabler/icons-react';
 import { trpc } from '~/utils/trpc';
@@ -7,7 +8,7 @@ import { MessagesProps } from '~/utils/types';
 
 export default function Messages(props: MessagesProps) {
   const [msgId, setMsgId] = useState<ObjectId | null>(null); // track which msg is being hovered
-
+  const { ref, inView } = useInView();
   const { msgs, refetch } = props;
 
   const mutation = trpc.deleteMsg.useMutation({ onSettled: refetch });
@@ -23,6 +24,10 @@ export default function Messages(props: MessagesProps) {
     const time = dateString.slice(16, 21);
     return `${date} - ${time}`;
   }
+
+  useEffect(() => {
+    if (inView) refetch();
+  }, [inView]);
 
   return (
     <ScrollArea h={400}>
@@ -49,6 +54,7 @@ export default function Messages(props: MessagesProps) {
           </div>
         );
       })}
+      <div ref={ref}></div>
     </ScrollArea>
   );
 }
