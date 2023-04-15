@@ -13,7 +13,7 @@ export default function MessageBar(props: MessageBarProps) {
 
   const { refetch } = props;
 
-  const mutation = trpc.addMsg.useMutation({ onSettled: refetch });
+  const { mutate } = trpc.addMsg.useMutation({ onSettled: refetch });
   const preSignedUrl = trpc.getPresignedUrl.useQuery(
     { filename, fileType },
     { enabled: !!filename && !!fileType },
@@ -23,8 +23,8 @@ export default function MessageBar(props: MessageBarProps) {
     if (file) {
       const imageUrl = await uploadPhotoToS3();
       if (!imageUrl) return;
-      mutation.mutate({ type: 'WITH_IMAGE', text, imageUrl });
-    } else mutation.mutate({ type: 'WITHOUT_IMAGE', text });
+      mutate({ type: 'WITH_IMAGE', text, imageUrl });
+    } else mutate({ type: 'WITHOUT_IMAGE', text });
     setText('');
     setFilename('');
     setFileType('');

@@ -24,8 +24,9 @@ const appRouter = router({
       ]),
     )
     .mutation(({ input }) => {
-      if (input.type === 'WITHOUT_IMAGE') addMsg(input.text);
-      else addMsg(input.text, input.imageUrl);
+      const { type, text } = input;
+      if (type === 'WITHOUT_IMAGE') addMsg(text);
+      else addMsg(text, input.imageUrl);
     }),
   deleteMsg: publicProcedure
     .input(
@@ -34,17 +35,20 @@ const appRouter = router({
       }),
     )
     .mutation(({ input }) => {
-      deleteMsg(input.id);
+      const { id } = input;
+      deleteMsg(id);
     }),
   listMsgs: publicProcedure
     .input(
       z.object({
         sortType: z.string().nullish(),
         isSortedAsc: z.boolean(),
+        cursor: z.string().nullish(),
       }),
     )
     .query(({ input }) => {
-      return listMsgs(input.sortType, input.isSortedAsc);
+      const { sortType, isSortedAsc, cursor } = input;
+      return listMsgs(sortType, isSortedAsc, cursor);
     }),
   getPresignedUrl: publicProcedure
     .input(
@@ -54,7 +58,8 @@ const appRouter = router({
       }),
     )
     .query(({ input }) => {
-      return preSignedUrl(input.filename, input.fileType);
+      const { filename, fileType } = input;
+      return preSignedUrl(filename, fileType);
     }),
 });
 

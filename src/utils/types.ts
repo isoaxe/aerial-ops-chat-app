@@ -10,8 +10,10 @@ export type Message = {
 };
 
 export type MessagesProps = {
-  msgs: Message[];
+  allMsgs: Message[];
+  isFetchingNextPage: boolean;
   refetch: () => void;
+  fetchNextPage: () => void;
 };
 
 export type MessageBarProps = {

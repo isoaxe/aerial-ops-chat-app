@@ -1,20 +1,21 @@
-import { useState, CSSProperties } from 'react';
+import { useState, useEffect, CSSProperties } from 'react';
 import { ObjectId } from 'mongodb';
-import { ScrollArea } from '@mantine/core';
+import { useInView } from 'react-intersection-observer';
+import { ScrollArea, Loader } from '@mantine/core';
 import { IconTrash } from '@tabler/icons-react';
 import { trpc } from '~/utils/trpc';
 import { MessagesProps } from '~/utils/types';
 
 export default function Messages(props: MessagesProps) {
   const [msgId, setMsgId] = useState<ObjectId | null>(null); // track which msg is being hovered
+  const { ref, inView } = useInView();
+  const { allMsgs, isFetchingNextPage, refetch, fetchNextPage } = props;
 
-  const { msgs, refetch } = props;
-
-  const mutation = trpc.deleteMsg.useMutation({ onSettled: refetch });
+  const { mutate } = trpc.deleteMsg.useMutation({ onSettled: refetch });
 
   function deleteMsg(_id: ObjectId) {
     const idAsString = _id.toString();
-    mutation.mutate({ id: idAsString });
+    mutate({ id: idAsString });
   }
 
   function formatTimestamp(unixTimestamp: number) {
@@ -24,31 +25,38 @@ export default function Messages(props: MessagesProps) {
     return `${date} - ${time}`;
   }
 
+  useEffect(() => {
+    if (inView) fetchNextPage();
+  }, [inView]);
+
   return (
     <ScrollArea h={400}>
-      {msgs?.map((msg) => {
+      {allMsgs?.map((msg) => {
+        const { _id, text, unixTime, imageUrl } = msg;
         return (
-          <div style={msgWrapStyle} key={msg._id.toString()}>
-            {msg.imageUrl ? (
-              <img style={imageStyle} src={msg.imageUrl} />
-            ) : null}
+          <div style={msgWrapStyle} key={_id.toString()}>
+            {imageUrl ? <img style={imageStyle} src={imageUrl} /> : null}
             <div
               style={msgIconStyle}
-              onMouseEnter={() => setMsgId(msg._id)}
+              onMouseEnter={() => setMsgId(_id)}
               onMouseLeave={() => setMsgId(null)}
             >
-              <div style={msgStyle}>{msg.text}</div>
+              <div style={msgStyle}>{text}</div>
               <IconTrash
                 style={trashIcon}
-                onClick={() => deleteMsg(msg._id)}
-                visibility={msgId === msg._id ? 'visible' : 'hidden'}
+                onClick={() => deleteMsg(_id)}
+                visibility={msgId === _id ? 'visible' : 'hidden'}
                 onMouseOver={(e) => (e.currentTarget.style.cursor = 'pointer')}
               />
             </div>
-            <div style={timestampStyle}>{formatTimestamp(msg.unixTime)}</div>
+            <div style={timestampStyle}>{formatTimestamp(unixTime)}</div>
           </div>
         );
       })}
+      {isFetchingNextPage ? (
+        <Loader style={loaderStyle} variant='dots' size='lg' />
+      ) : null}
+      <div ref={ref}></div>
     </ScrollArea>
   );
 }
@@ -82,4 +90,9 @@ const timestampStyle: CSSProperties = {
 
 const trashIcon: CSSProperties = {
   color: '#9da2a4',
+};
+
+const loaderStyle: CSSProperties = {
+  display: 'block',
+  margin: '0px auto 20px',
 };
