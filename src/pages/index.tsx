@@ -13,7 +13,7 @@ export default function IndexPage() {
   const [sortType, setSortType] = useState<string | null>('date');
   const [isSortedAsc, setIsSortedAsc] = useState(true);
 
-  const { data, refetch } = trpc.listMsgs.useInfiniteQuery(
+  const { data, refetch, fetchNextPage } = trpc.listMsgs.useInfiniteQuery(
     { sortType, isSortedAsc },
     { getNextPageParam: (lastPage) => lastPage.lastCursor },
   );
@@ -30,7 +30,11 @@ export default function IndexPage() {
         isSortedAsc={isSortedAsc}
         setIsSortedAsc={setIsSortedAsc}
       />
-      <Messages msgs={allMsgs} refetch={refetch} />
+      <Messages
+        msgs={allMsgs}
+        refetch={refetch}
+        fetchNextPage={fetchNextPage}
+      />
       <MessageBar refetch={refetch} />
     </Container>
   );

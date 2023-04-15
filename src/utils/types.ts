@@ -12,6 +12,7 @@ export type Message = {
 export type MessagesProps = {
   msgs: Message[];
   refetch: () => void;
+  fetchNextPage: () => void;
 };
 
 export type MessageBarProps = {

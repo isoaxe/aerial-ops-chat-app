@@ -9,7 +9,7 @@ import { MessagesProps } from '~/utils/types';
 export default function Messages(props: MessagesProps) {
   const [msgId, setMsgId] = useState<ObjectId | null>(null); // track which msg is being hovered
   const { ref, inView } = useInView();
-  const { msgs, refetch } = props;
+  const { msgs, refetch, fetchNextPage } = props;
 
   const mutation = trpc.deleteMsg.useMutation({ onSettled: refetch });
 
@@ -26,7 +26,7 @@ export default function Messages(props: MessagesProps) {
   }
 
   useEffect(() => {
-    if (inView) refetch();
+    if (inView) fetchNextPage();
   }, [inView]);
 
   return (
