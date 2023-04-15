@@ -32,25 +32,24 @@ export default function Messages(props: MessagesProps) {
   return (
     <ScrollArea h={400}>
       {allMsgs?.map((msg) => {
+        const { _id, text, unixTime, imageUrl } = msg;
         return (
-          <div style={msgWrapStyle} key={msg._id.toString()}>
-            {msg.imageUrl ? (
-              <img style={imageStyle} src={msg.imageUrl} />
-            ) : null}
+          <div style={msgWrapStyle} key={_id.toString()}>
+            {imageUrl ? <img style={imageStyle} src={imageUrl} /> : null}
             <div
               style={msgIconStyle}
-              onMouseEnter={() => setMsgId(msg._id)}
+              onMouseEnter={() => setMsgId(_id)}
               onMouseLeave={() => setMsgId(null)}
             >
-              <div style={msgStyle}>{msg.text}</div>
+              <div style={msgStyle}>{text}</div>
               <IconTrash
                 style={trashIcon}
-                onClick={() => deleteMsg(msg._id)}
-                visibility={msgId === msg._id ? 'visible' : 'hidden'}
+                onClick={() => deleteMsg(_id)}
+                visibility={msgId === _id ? 'visible' : 'hidden'}
                 onMouseOver={(e) => (e.currentTarget.style.cursor = 'pointer')}
               />
             </div>
-            <div style={timestampStyle}>{formatTimestamp(msg.unixTime)}</div>
+            <div style={timestampStyle}>{formatTimestamp(unixTime)}</div>
           </div>
         );
       })}
