@@ -10,7 +10,7 @@ export type Message = {
 };
 
 export type MessagesProps = {
-  msgs: Message[];
+  allMsgs: Message[];
   refetch: () => void;
   fetchNextPage: () => void;
 };

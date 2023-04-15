@@ -9,7 +9,7 @@ import { MessagesProps } from '~/utils/types';
 export default function Messages(props: MessagesProps) {
   const [msgId, setMsgId] = useState<ObjectId | null>(null); // track which msg is being hovered
   const { ref, inView } = useInView();
-  const { msgs, refetch, fetchNextPage } = props;
+  const { allMsgs, refetch, fetchNextPage } = props;
 
   const mutation = trpc.deleteMsg.useMutation({ onSettled: refetch });
 
@@ -31,7 +31,7 @@ export default function Messages(props: MessagesProps) {
 
   return (
     <ScrollArea h={400}>
-      {msgs?.map((msg) => {
+      {allMsgs?.map((msg) => {
         return (
           <div style={msgWrapStyle} key={msg._id.toString()}>
             {msg.imageUrl ? (

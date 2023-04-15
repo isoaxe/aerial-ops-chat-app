@@ -31,7 +31,7 @@ export default function IndexPage() {
         setIsSortedAsc={setIsSortedAsc}
       />
       <Messages
-        msgs={allMsgs}
+        allMsgs={allMsgs}
         refetch={refetch}
         fetchNextPage={fetchNextPage}
       />
