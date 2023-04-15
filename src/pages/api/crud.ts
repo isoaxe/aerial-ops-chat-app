@@ -58,6 +58,6 @@ export async function listMsgs(
   const lastItem = msgs[msgs.length - 1];
   let lastCursor: string | undefined;
   if (sortType === 'date') lastCursor = lastItem?._id.toString();
-  else lastCursor = lastItem?._id.toString();
+  else lastCursor = lastItem?.text.toString();
   return { msgs, lastCursor };
 }
