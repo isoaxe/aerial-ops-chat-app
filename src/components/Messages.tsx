@@ -1,7 +1,7 @@
 import { useState, useEffect, CSSProperties } from 'react';
 import { ObjectId } from 'mongodb';
 import { useInView } from 'react-intersection-observer';
-import { ScrollArea } from '@mantine/core';
+import { ScrollArea, Loader } from '@mantine/core';
 import { IconTrash } from '@tabler/icons-react';
 import { trpc } from '~/utils/trpc';
 import { MessagesProps } from '~/utils/types';
@@ -9,7 +9,7 @@ import { MessagesProps } from '~/utils/types';
 export default function Messages(props: MessagesProps) {
   const [msgId, setMsgId] = useState<ObjectId | null>(null); // track which msg is being hovered
   const { ref, inView } = useInView();
-  const { allMsgs, refetch, fetchNextPage } = props;
+  const { allMsgs, isFetchingNextPage, refetch, fetchNextPage } = props;
 
   const { mutate } = trpc.deleteMsg.useMutation({ onSettled: refetch });
 
@@ -54,6 +54,9 @@ export default function Messages(props: MessagesProps) {
           </div>
         );
       })}
+      {isFetchingNextPage ? (
+        <Loader style={loaderStyle} variant='dots' size='lg' />
+      ) : null}
       <div ref={ref}></div>
     </ScrollArea>
   );
@@ -88,4 +91,9 @@ const timestampStyle: CSSProperties = {
 
 const trashIcon: CSSProperties = {
   color: '#9da2a4',
+};
+
+const loaderStyle: CSSProperties = {
+  display: 'block',
+  margin: '0px auto 20px',
 };

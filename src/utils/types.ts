@@ -11,6 +11,7 @@ export type Message = {
 
 export type MessagesProps = {
   allMsgs: Message[];
+  isFetchingNextPage: boolean;
   refetch: () => void;
   fetchNextPage: () => void;
 };
