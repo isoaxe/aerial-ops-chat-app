@@ -11,11 +11,11 @@ export default function Messages(props: MessagesProps) {
   const { ref, inView } = useInView();
   const { allMsgs, refetch, fetchNextPage } = props;
 
-  const mutation = trpc.deleteMsg.useMutation({ onSettled: refetch });
+  const { mutate } = trpc.deleteMsg.useMutation({ onSettled: refetch });
 
   function deleteMsg(_id: ObjectId) {
     const idAsString = _id.toString();
-    mutation.mutate({ id: idAsString });
+    mutate({ id: idAsString });
   }
 
   function formatTimestamp(unixTimestamp: number) {
