@@ -32,7 +32,7 @@ export default function IndexPage() {
         setIsSortedAsc={setIsSortedAsc}
       />
       {isLoading ? (
-        <Loader variant='bars' size='lg' />
+        <Loader variant='bars' size='lg' style={loaderStyle} />
       ) : (
         <Messages
           allMsgs={allMsgs}
@@ -57,4 +57,9 @@ const styles: CSSProperties = {
   borderRadius: '5px',
   boxShadow: 'rgba(0, 0, 0, 0.35) 0px 5px 15px',
   backgroundColor: '#d0d5d7',
+};
+
+const loaderStyle: CSSProperties = {
+  display: 'block',
+  margin: 'auto',
 };
