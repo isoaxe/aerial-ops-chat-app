@@ -20,7 +20,7 @@ export default function IndexPage() {
     );
   let allMsgs: Message[] = [];
   data?.pages.forEach((page) => {
-    page.msgs.forEach((msg) => allMsgs.push(msg as unknown as Message));
+    allMsgs.push(...(page.msgs as unknown as Message[]));
   });
 
   return (
