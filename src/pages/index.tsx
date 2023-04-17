@@ -2,7 +2,7 @@
  * This is a Next.js page.
  */
 import { useState, CSSProperties } from 'react';
-import { Container } from '@mantine/core';
+import { Container, Loader } from '@mantine/core';
 import SortBar from '~/components/SortBar';
 import MessageBar from '~/components/MessageBar';
 import Messages from '~/components/Messages';
@@ -13,7 +13,7 @@ export default function IndexPage() {
   const [sortType, setSortType] = useState<string | null>('date');
   const [isSortedAsc, setIsSortedAsc] = useState(true);
 
-  const { data, isFetchingNextPage, refetch, fetchNextPage } =
+  const { data, isFetchingNextPage, isLoading, refetch, fetchNextPage } =
     trpc.listMsgs.useInfiniteQuery(
       { sortType, isSortedAsc },
       { getNextPageParam: (lastPage) => lastPage.lastCursor },
@@ -31,12 +31,16 @@ export default function IndexPage() {
         isSortedAsc={isSortedAsc}
         setIsSortedAsc={setIsSortedAsc}
       />
-      <Messages
-        allMsgs={allMsgs}
-        isFetchingNextPage={isFetchingNextPage}
-        refetch={refetch}
-        fetchNextPage={fetchNextPage}
-      />
+      {isLoading ? (
+        <Loader variant='bars' size='lg' />
+      ) : (
+        <Messages
+          allMsgs={allMsgs}
+          isFetchingNextPage={isFetchingNextPage}
+          refetch={refetch}
+          fetchNextPage={fetchNextPage}
+        />
+      )}
       <MessageBar refetch={refetch} />
     </Container>
   );
